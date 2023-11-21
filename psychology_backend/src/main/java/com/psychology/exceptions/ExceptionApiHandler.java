@@ -33,5 +33,17 @@ public class ExceptionApiHandler {
 		log.error(exception.getMessage());
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorDTO("Неверные данные!"));
 	}
+	
+	@ExceptionHandler(SpecializationAlreadyExists.class)
+	public ResponseEntity<ErrorDTO> specializationAlreadyExists(SpecializationAlreadyExists exception) {
+		log.error(exception.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDTO(exception.getMessage()));
+	}
+	
+	@ExceptionHandler(PsychologistAlreadyExists.class)
+	public ResponseEntity<ErrorDTO> psychologistAlreadyExists(PsychologistAlreadyExists exception) {
+		log.error(exception.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDTO(exception.getMessage()));
+	}
 
 }

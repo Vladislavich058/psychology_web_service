@@ -6,10 +6,11 @@ module.exports = withMT({
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Montserrat", "sans-serif", defaultTheme.fontFamily.sans],
-        serif: ["Montserrat", "serif"],
-        body: ["Montserrat", "sans-serif"],
+        sans: ["Cormorant Garamond", "sans", defaultTheme.fontFamily.sans],
+        serif: ["Cormorant Garamond", "serif"],
+        body: ["Cormorant Garamond", "serif"],
         montserrat: ["Montserrat", "sans-serif"],
+        cormorant: ["Cormorant Garamond", "serif"],
       },
     },
   },

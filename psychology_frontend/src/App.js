@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider } from "@material-tailwind/react";
+import AppRouter from "components/AppRouter";
+import Footer from "components/Footer";
+import Header from "components/Header";
+import { AuthContext } from "context/authContext";
+import "index.css";
+import Home from "pages/Home";
+import React, { useState } from "react";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
+  const [authUser, setAuthUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider>
+      <div className="text-xl">
+        <AuthContext.Provider
+          value={{
+            authUser,
+            setAuthUser,
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <BrowserRouter>
+            <Header />
+            <div className="px-8 min-h-[85vh]">
+              <AppRouter />
+            </div>
+            <Footer />
+          </BrowserRouter>
+        </AuthContext.Provider>
+      </div>
+    </ThemeProvider>
   );
 }
 

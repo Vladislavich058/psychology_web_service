@@ -32,15 +32,7 @@ public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Column(nullable = false)
-	private String name;
-
-	@Column(nullable = false)
-	private String surname;
-
-	private String lastname;
+	private Integer id;
 
 	@Column(nullable = false, unique = true)
 	private String email;
@@ -48,9 +40,6 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@Column(nullable = false)
 	private String password;
-
-	@Column(nullable = false)
-	private String phone;
 
 	@Column(nullable = false)
 	private String role;
