@@ -2,6 +2,7 @@ import { Collapse, IconButton, Navbar } from "@material-tailwind/react";
 import { useAuth } from "hooks/useAuth";
 import LogoIcon from "images/logo1.png";
 import React, { useEffect, useState } from "react";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -16,31 +17,43 @@ const Header = () => {
     );
   }, []);
 
-  const navItems = authUser
-    ? [
-        { label: "Главная", route: "/" },
-        { label: "Психологи", route: "/psychologists" },
-        { label: "Специализации", route: "/specializations" },
-        { label: "Аналитика", route: "/analitics" },
-      ]
-    : [
-        { label: "Главная", route: "/" },
-        { label: "Кабинеты", route: "/offices" },
-        { label: "Специалисты", route: "/psychologists" },
-        { label: "Контакты", route: "/contacts" },
-      ];
+  const adminNavItems = [
+    { label: "Главная", route: "/" },
+    { label: "Психологи", route: "/psychologists" },
+    { label: "Специализации", route: "/specializations" },
+    { label: "Записи", route: "/records" },
+    { label: "Обратный звонок", route: "/calls" },
+    { label: "Аналитика", route: "/analitics" },
+  ];
+
+  const userNavItems = [
+    { label: "Услуги", route: "#services" },
+    { label: "Специалисты", route: "#psychologists" },
+    { label: "Офисы", route: "#offices" },
+    { label: "Контакты", route: "#contacts" },
+  ];
 
   const navList = (
     <ul className="text-black flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-10 mt-5 lg:mt-0">
-      {navItems.map(({ label, route }, index) => (
-        <Link to={route} key={index}>
-          <li
-            className={`p-1 transition ease-in-out delay-100 lg:hover:-translate-y-1 lg:hover:scale-110 hover:font-medium cursor-pointer`}
-          >
-            {label}
-          </li>
-        </Link>
-      ))}
+      {authUser
+        ? adminNavItems.map(({ label, route }, index) => (
+            <Link to={route} key={index}>
+              <li
+                className={`p-1 transition ease-in-out delay-100 lg:hover:-translate-y-1 lg:hover:scale-110 hover:font-medium cursor-pointer`}
+              >
+                {label}
+              </li>
+            </Link>
+          ))
+        : userNavItems.map(({ label, route }, index) => (
+            <AnchorLink href={route} key={index}>
+              <li
+                className={`p-1 transition ease-in-out delay-100 lg:hover:-translate-y-1 lg:hover:scale-110 hover:font-medium cursor-pointer`}
+              >
+                {label}
+              </li>
+            </AnchorLink>
+          ))}
     </ul>
   );
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.psychology.views.Views;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "specializations")
+@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 public class Specialization implements Serializable {
 	
 	private static final long serialVersionUID = 2448774980916415680L;

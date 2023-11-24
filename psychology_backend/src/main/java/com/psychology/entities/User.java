@@ -8,6 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.psychology.views.Views;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "users")
+@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;

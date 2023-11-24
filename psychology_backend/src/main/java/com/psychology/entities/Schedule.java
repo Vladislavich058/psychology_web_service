@@ -3,6 +3,9 @@ package com.psychology.entities;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.psychology.views.Views;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "schedules")
+@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 public class Schedule implements Serializable {
 
 	private static final long serialVersionUID = -4964616019544645557L;

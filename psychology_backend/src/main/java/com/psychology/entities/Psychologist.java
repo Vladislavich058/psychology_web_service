@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.psychology.views.Views;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,31 +33,40 @@ public class Psychologist implements Serializable {
 
 	private static final long serialVersionUID = -2536293872834013795L;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@Column(nullable = false)
 	private String name;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@Column(nullable = false)
 	private String surname;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	private String lastname;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@Column(nullable = false)
 	private String description;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Photo> photos;
 
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@ManyToOne
 	@JoinColumn(name = "office_id")
 	private Office office;
 	
+	@JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
 	@OneToOne(cascade = CascadeType.ALL)
 	private Schedule schedule;
 
+	@JsonView(Views.PsychologistView.class)
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "psychologist")
 	private List<PsychologistPrice> psychologistPrices;
 

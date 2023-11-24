@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import PsychologistItem from "./PsychologistItem";
+import RecordForm from "./RecordForm";
 
-const PsychologistList = ({ psychologists, type, deletePsychologist }) => {
+const PsychologistList = ({
+  psychologists,
+  type = "",
+  deletePsychologist = null,
+}) => {
   return (
     <div className="flex flex-wrap justify-around">
       {psychologists &&

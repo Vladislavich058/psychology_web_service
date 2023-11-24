@@ -29,6 +29,7 @@ export const useFetching = (callback) => {
     fetching: fetching,
     isLoading: isLoading,
     error: error,
-    errorOpen: errorOpen
+    errorOpen: errorOpen,
+    setErrorOpen: setErrorOpen,
   };
 };

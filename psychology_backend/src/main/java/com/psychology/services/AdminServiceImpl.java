@@ -1,6 +1,7 @@
 package com.psychology.services;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,20 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.psychology.dtos.AnaliticDTO;
 import com.psychology.dtos.PsychologistDTO;
 import com.psychology.dtos.SpecializationDTO;
+import com.psychology.entities.Call;
 import com.psychology.entities.Office;
 import com.psychology.entities.Photo;
 import com.psychology.entities.Psychologist;
 import com.psychology.entities.PsychologistPrice;
+import com.psychology.entities.Record;
 import com.psychology.entities.Specialization;
 import com.psychology.exceptions.NotFoundException;
 import com.psychology.exceptions.PsychologistAlreadyExists;
 import com.psychology.exceptions.SpecializationAlreadyExists;
 import com.psychology.mappers.PsychologistMapper;
+import com.psychology.repositories.CallRepository;
 import com.psychology.repositories.OfficeRepository;
 import com.psychology.repositories.PsychologistPriceRepository;
 import com.psychology.repositories.PsychologistRepository;
+import com.psychology.repositories.RecordRepository;
 import com.psychology.repositories.SpecializationRepository;
 
 import jakarta.transaction.Transactional;
@@ -48,6 +54,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	PsychologistPriceRepository priceRepository;
+
+	@Autowired
+	CallRepository callRepository;
+
+	@Autowired
+	RecordRepository recordRepository;
 
 	@Override
 	public Iterable<Psychologist> getPsychologists() {
@@ -82,6 +94,7 @@ public class AdminServiceImpl implements AdminService {
 		return officeRepository.findAll();
 	}
 
+	@Transactional
 	@Override
 	public Psychologist addPsychologist(PsychologistDTO psychologistDTO, MultipartFile[] files)
 			throws PsychologistAlreadyExists, IOException {
@@ -113,7 +126,6 @@ public class AdminServiceImpl implements AdminService {
 		return id;
 	}
 
-	@Transactional
 	@Override
 	public Psychologist getPsychologistById(Integer id) throws NotFoundException {
 		return psychologistRepository.findById(id)
@@ -142,6 +154,39 @@ public class AdminServiceImpl implements AdminService {
 			editPsychologist.addPsychologistPrice(psychologistPrices.get(i));
 		}
 		return psychologistRepository.save(editPsychologist);
+	}
+
+	@Override
+	public Iterable<Record> getRecords() {
+		return recordRepository.findAll();
+	}
+
+	@Override
+	public Iterable<Call> getCalls() {
+		return callRepository.findAll();
+	}
+
+	@Override
+	public Integer deleteRecord(Integer id) {
+		if (recordRepository.findById(id).isEmpty()) {
+			new NotFoundException("Record with id " + id + " not found!");
+		}
+		recordRepository.deleteById(id);
+		return id;
+	}
+
+	@Override
+	public Integer callBack(Integer id) throws NotFoundException {
+		Call call = callRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Call with id " + id + " not found!"));
+		call.setIsCallBack(true);
+		callRepository.save(call);
+		return id;
+	}
+
+	@Override
+	public List<AnaliticDTO> getAnalitic(LocalDate date) {
+		return recordRepository.getAnalitic(date);
 	}
 
 }

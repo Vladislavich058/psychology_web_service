@@ -423,7 +423,7 @@ const PsychologistForm = ({ specializations, offices, type }) => {
                   <Select
                     size="lg"
                     variant="static"
-                    name="office"
+                    name="specialization"
                     className="text-lg uppercase text-black w-[250px]"
                     value={psychologistPrice.specialization}
                     onChange={(e) => handleChangeSpecialization(e)}

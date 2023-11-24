@@ -32,6 +32,9 @@ public class OfficeDTO {
 
 	@NotNull
 	private Float square;
+	
+	@NotNull
+	private ScheduleDTO schedule;
 
 	@NotNull
 	List<PhotoDTO> photos;

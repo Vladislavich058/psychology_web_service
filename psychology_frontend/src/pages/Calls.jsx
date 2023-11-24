@@ -1,36 +1,35 @@
 import { Alert, Spinner } from "@material-tailwind/react";
 import AdminService from "API/AdminService";
+import CallTable from "components/CallTable";
 import SpecializationDialog from "components/SpecializationDialog";
 import SpecializationTable from "components/SpecializationTable";
+import { useCalls } from "hooks/useCalls";
 import { useFetching } from "hooks/useFetching";
 import { useSpecializations } from "hooks/useSpecializations";
 import React, { useEffect, useState } from "react";
 
-const Specializations = () => {
-  const [specializations, setSpecializations] = useState();
+const Calls = () => {
+  const [calls, setCalls] = useState();
   const [query, setQuery] = useState("");
   const [error, setError] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
 
-  const handleOpenDialog = () => setOpenDialog(!openDialog);
-
-  const searchSpecializations = useSpecializations(specializations, query);
+  const searchCalls = useCalls(calls, query);
 
   const {
-    fetching: fetchSpec,
-    isLoading: isSpecLoading,
-    error: specError,
-    errorOpen: specErrorOpen,
+    fetching: fetchCalls,
+    isLoading: isCallsLoading,
+    error: callsError,
+    errorOpen: callsErrorOpen,
   } = useFetching(async () => {
-    const response = await AdminService.getSpecializations();
-    setSpecializations(response.data);
+    const response = await AdminService.getCalls();
+    setCalls(response.data);
   });
 
-  const deleteSpecialization = async (id) => {
+  const callBack = async (id) => {
     try {
-      await AdminService.deleteSpecializationById(id);
-      fetchSpec();
+      await AdminService.callBackById(id);
+      fetchCalls();
     } catch (e) {
       setErrorOpen(true);
       const errorMes =
@@ -42,35 +41,28 @@ const Specializations = () => {
   };
 
   useEffect(() => {
-    fetchSpec();
+    fetchCalls();
   }, []);
 
   return (
     <div className="py-10">
       <Alert
         className="my-1 mt-5 rounded-none font-medium text-xl bg-red-100 text-red-500"
-        open={specErrorOpen || errorOpen}
+        open={callsErrorOpen || errorOpen}
       >
-        {specError || error}
+        {callsError || error}
       </Alert>
-      {isSpecLoading ? (
+      {isCallsLoading ? (
         <div className="flex justify-center mt-12">
           <Spinner />
         </div>
       ) : (
         <div className="flex justify-center">
-          <SpecializationTable
-            searchSpecializations={searchSpecializations}
-            deleteSpecialization={deleteSpecialization}
+          <CallTable
+            calls={searchCalls}
+            callBack={callBack}
             query={query}
             setQuery={setQuery}
-            setOpenDialog={setOpenDialog}
-          />
-          <SpecializationDialog
-            openSpecializationDialog={openDialog}
-            handleOpenDialog={handleOpenDialog}
-            setOpenSpecializationDialog={setOpenDialog}
-            fetchSpecializations={fetchSpec}
           />
         </div>
       )}
@@ -78,4 +70,4 @@ const Specializations = () => {
   );
 };
 
-export default Specializations;
+export default Calls;

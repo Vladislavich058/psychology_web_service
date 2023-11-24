@@ -16,12 +16,17 @@ import com.psychology.entities.Schedule;
 import com.psychology.entities.Specialization;
 import com.psychology.entities.User;
 import com.psychology.exceptions.NotFoundException;
+import com.psychology.mappers.PsychologistPriceMapper;
 import com.psychology.repositories.OfficeRepository;
 import com.psychology.repositories.PsychologistPriceRepository;
 import com.psychology.repositories.PsychologistRepository;
 import com.psychology.repositories.SpecializationRepository;
 import com.psychology.repositories.UserRepository;
+import com.psychology.services.ClientService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class WebConfig implements CommandLineRunner {
 
@@ -43,6 +48,12 @@ public class WebConfig implements CommandLineRunner {
 	@Autowired
 	PsychologistPriceRepository psychologistPriceRepository;
 
+	@Autowired
+	ClientService clientService;
+
+	@Autowired
+	PsychologistPriceMapper psychologistPriceMapper;
+
 	@Override
 	public void run(String... args) throws Exception {
 		if (userRepository.findAll().isEmpty()) {
@@ -59,6 +70,13 @@ public class WebConfig implements CommandLineRunner {
 											.uri("http://localhost:8080/images/office1.jpeg").build(),
 									Photo.builder().size(10L).name("office2")
 											.uri("http://localhost:8080/images/office2.jpeg").build()))
+							.schedule(Schedule.builder().mondayStartTime(LocalTime.of(9, 0))
+									.mondayEndTime(LocalTime.of(21, 0)).tuesdayStartTime(LocalTime.of(9, 0))
+									.tuesdayEndTime(LocalTime.of(21, 0)).wensdayStartTime(LocalTime.of(9, 0))
+									.wensdayEndTime(LocalTime.of(21, 0)).thusdayStartTime(LocalTime.of(9, 0))
+									.thusdayEndTime(LocalTime.of(21, 0)).fridayStartTime(LocalTime.of(9, 0))
+									.fridayEndTime(LocalTime.of(21, 0)).saturdayStartTime(LocalTime.of(9, 0))
+									.saturdayEndTime(LocalTime.of(21, 0)).build())
 							.build(),
 					Office.builder().number(2).priceIndividual(4500).priceIndividualLong(5500).priceGroup(8000)
 							.priceGroupLong(10000).description("Уютный офис для занятий").square(45.4f)
@@ -69,6 +87,13 @@ public class WebConfig implements CommandLineRunner {
 											.uri("http://localhost:8080/images/office4.jpeg").build(),
 									Photo.builder().name("office5").size(10L)
 											.uri("http://localhost:8080/images/office5.jpeg").build()))
+							.schedule(Schedule.builder().mondayStartTime(LocalTime.of(9, 0))
+									.mondayEndTime(LocalTime.of(21, 0)).tuesdayStartTime(LocalTime.of(9, 0))
+									.tuesdayEndTime(LocalTime.of(21, 0)).wensdayStartTime(LocalTime.of(9, 0))
+									.wensdayEndTime(LocalTime.of(21, 0)).thusdayStartTime(LocalTime.of(9, 0))
+									.thusdayEndTime(LocalTime.of(21, 0)).fridayStartTime(LocalTime.of(9, 0))
+									.fridayEndTime(LocalTime.of(21, 0)).saturdayStartTime(LocalTime.of(9, 0))
+									.saturdayEndTime(LocalTime.of(21, 0)).build())
 							.build()));
 		}
 
@@ -191,7 +216,6 @@ public class WebConfig implements CommandLineRunner {
 												.build()));
 			}
 		}
-
 	}
 
 }

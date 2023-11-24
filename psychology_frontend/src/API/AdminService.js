@@ -24,6 +24,30 @@ export default class AdminService {
     return response;
   }
 
+  static async getRecords() {
+    const response = await axios.get(API_URL + "records", {
+      headers: getAuthHeader(),
+    });
+    return response;
+  }
+
+  static async getAnalitic(date) {
+    const response = await axios.get(API_URL + "analitic", {
+      headers: getAuthHeader(),
+      params: {
+        date: date,
+      },
+    });
+    return response;
+  }
+
+  static async getCalls() {
+    const response = await axios.get(API_URL + "calls", {
+      headers: getAuthHeader(),
+    });
+    return response;
+  }
+
   static async deleteSpecializationById(id) {
     const response = await axios.delete(API_URL + "specialization/" + id, {
       headers: getAuthHeader(),
@@ -31,11 +55,28 @@ export default class AdminService {
     return response;
   }
 
-
-  static async addSpecialization({ specialization }) {
-    const response = await axios.post(API_URL + "addSpecialization", specialization, {
+  static async deleteRecordById(id) {
+    const response = await axios.delete(API_URL + "record/" + id, {
       headers: getAuthHeader(),
     });
+    return response;
+  }
+
+  static async callBackById(id) {
+    const response = await axios.get(API_URL + "callBack/" + id, {
+      headers: getAuthHeader(),
+    });
+    return response;
+  }
+
+  static async addSpecialization({ specialization }) {
+    const response = await axios.post(
+      API_URL + "addSpecialization",
+      specialization,
+      {
+        headers: getAuthHeader(),
+      }
+    );
     return response;
   }
 

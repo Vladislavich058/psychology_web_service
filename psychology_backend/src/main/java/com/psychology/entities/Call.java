@@ -21,11 +21,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Entity
-@Table(name = "photos")
+@Table(name = "calls")
 @JsonView({Views.PsychologistPriceView.class, Views.PsychologistView.class})
-public class Photo implements Serializable {
+public class Call implements Serializable {
 
-	private static final long serialVersionUID = -1749210791429093654L;
+	private static final long serialVersionUID = -4451867805546273263L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,10 +33,11 @@ public class Photo implements Serializable {
 
 	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
+	private String phone;
 	
 	@Column(nullable = false)
-	private String uri;
-	
-	@Column(nullable = false)
-	private Long size;
+	private Boolean isCallBack;
+
 }

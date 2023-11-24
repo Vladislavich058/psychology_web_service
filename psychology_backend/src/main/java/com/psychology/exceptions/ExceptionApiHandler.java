@@ -40,6 +40,18 @@ public class ExceptionApiHandler {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDTO(exception.getMessage()));
 	}
 	
+	@ExceptionHandler(NoAvailableOffice.class)
+	public ResponseEntity<ErrorDTO> noAvailableOffice(NoAvailableOffice exception) {
+		log.error(exception.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(exception.getMessage()));
+	}
+	
+	@ExceptionHandler(IncorrectDateTime.class)
+	public ResponseEntity<ErrorDTO> incorrectDateTime(IncorrectDateTime exception) {
+		log.error(exception.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(exception.getMessage()));
+	}
+	
 	@ExceptionHandler(PsychologistAlreadyExists.class)
 	public ResponseEntity<ErrorDTO> psychologistAlreadyExists(PsychologistAlreadyExists exception) {
 		log.error(exception.getMessage());

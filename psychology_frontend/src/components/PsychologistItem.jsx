@@ -1,15 +1,17 @@
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
   Carousel,
   IconButton,
 } from "@material-tailwind/react";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPrice } from "utils/getPrice";
 import { Tooltip } from "@material-tailwind/react";
 import { UserMinusIcon, PencilIcon } from "@heroicons/react/24/solid";
+import RecordForm from "./RecordForm";
 
 const PsychologistItem = ({ psychologist, type, deletePsychologist }) => {
   const times = [
@@ -50,6 +52,9 @@ const PsychologistItem = ({ psychologist, type, deletePsychologist }) => {
       valueEnd: psychologist.schedule && psychologist.schedule.saturdayEndTime,
     },
   ];
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialog = () => setOpenDialog(!openDialog);
   const router = useNavigate();
   return (
     <Card className="w-[300px] my-5">
@@ -185,9 +190,9 @@ const PsychologistItem = ({ psychologist, type, deletePsychologist }) => {
               <div className="py-1 text-sm">
                 <span className="uppercase">{label}:</span>{" "}
                 <span className="font-montserrat">
-                  {valueStart ? valueStart.substring(0,5) : "выходной"}
+                  {valueStart ? valueStart.substring(0, 5) : "выходной"}
                   {valueStart ? "-" : ""}
-                  {valueEnd ? valueEnd.substring(0,5) : ""}
+                  {valueEnd ? valueEnd.substring(0, 5) : ""}
                 </span>
               </div>
             );
@@ -219,7 +224,10 @@ const PsychologistItem = ({ psychologist, type, deletePsychologist }) => {
         {type === "admin" ? (
           <div className="flex items-center justify-between">
             <Tooltip content="Изменить">
-              <IconButton variant="text" onClick={() => router(`/editPsychologist/${psychologist.id}`)}>
+              <IconButton
+                variant="text"
+                onClick={() => router(`/editPsychologist/${psychologist.id}`)}
+              >
                 <PencilIcon className="h-4 w-4" />
               </IconButton>
             </Tooltip>
@@ -233,9 +241,26 @@ const PsychologistItem = ({ psychologist, type, deletePsychologist }) => {
             </Tooltip>
           </div>
         ) : (
-          ""
+          <div>
+            <Button
+              variant="outlined"
+              className="rounded-none mt-5 text-black text-sm py-2"
+              fullWidth
+              onClick={() => {
+                setOpenDialog(true);
+              }}
+            >
+              Записаться
+            </Button>
+          </div>
         )}
       </CardBody>
+      <RecordForm
+        openDialog={openDialog}
+        handleOpenDialog={handleOpenDialog}
+        psychologist={psychologist}
+        type="psychologist"
+      />
     </Card>
   );
 };

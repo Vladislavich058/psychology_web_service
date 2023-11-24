@@ -7,10 +7,14 @@ import lombok.Data;
 @Data
 public class PsychologistPriceDTO {
 	
+	private Integer id;
+	
 	@NotNull
 	private Integer price;
 	
 	@NotNull
 	private SpecializationDTO specialization;
+	
+	private PsychologistDTO psychologist;
 	
 }
