@@ -312,6 +312,7 @@ const RecordForm = ({
                 </div>
               ) : type === "psychologist" &&
                 record.date &&
+                !isDataLoading &&
                 !times.length &&
                 !dataErrorOpen ? (
                 <div className="text-red-500 text-lg">
@@ -422,6 +423,7 @@ const RecordForm = ({
                 record.time &&
                 record.duration &&
                 !dataErrorOpen &&
+                !isDataLoading&&
                 !offices.length ? (
                 <div className="text-red-500 text-lg">
                   Свободные офисы отсутствуют:{`(`}

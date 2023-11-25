@@ -41,39 +41,35 @@ const RecordTable = ({ records, deleteRecord, filter, setFilter }) => {
         <div className="flex items-center gap-5">
           <div className="flex items-end gap-2">
             <div>От:</div>
-            <div className="w-[120px]">
-              <Input
-                variant="static"
-                type="date"
-                className="text-base !font-montserrat w-[120px]"
-                value={filter.filter.startDate}
-                onChange={(e) =>
-                  setFilter({
-                    ...filter,
-                    filter: { ...filter.filter, startDate: e.target.value },
-                  })
-                }
-                crossOrigin={undefined}
-              />
-            </div>
+            <Input
+              variant="static"
+              type="date"
+              className="text-base !font-montserrat"
+              value={filter.filter.startDate}
+              onChange={(e) =>
+                setFilter({
+                  ...filter,
+                  filter: { ...filter.filter, startDate: e.target.value },
+                })
+              }
+              crossOrigin={undefined}
+            />
           </div>
           <div className="flex items-end gap-2">
             <div>До:</div>
-            <div className="w-[120px]">
-              <Input
-                variant="static"
-                type="date"
-                className="text-base !font-montserrat w-[120px]"
-                value={filter.filter.endDate}
-                onChange={(e) =>
-                  setFilter({
-                    ...filter,
-                    filter: { ...filter.filter, endDate: e.target.value },
-                  })
-                }
-                crossOrigin={undefined}
-              />
-            </div>
+            <Input
+              variant="static"
+              type="date"
+              className="text-base !font-montserrat"
+              value={filter.filter.endDate}
+              onChange={(e) =>
+                setFilter({
+                  ...filter,
+                  filter: { ...filter.filter, endDate: e.target.value },
+                })
+              }
+              crossOrigin={undefined}
+            />
           </div>
         </div>
         <div className="flex items-end gap-2">

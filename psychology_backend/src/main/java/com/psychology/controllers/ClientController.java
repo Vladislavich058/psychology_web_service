@@ -27,7 +27,9 @@ import com.psychology.services.ClientService;
 import com.psychology.views.Views;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class ClientController {
@@ -67,6 +69,7 @@ public class ClientController {
 
 	@PostMapping("/addCall")
 	public Call addCall(@Valid @RequestBody CallDTO callDTO) {
+		log.info(callDTO.toString());
 		return clientService.addCall(callDTO);
 	}
 }

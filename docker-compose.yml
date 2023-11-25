@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data/
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+  server:
+    build: ./psychology_backend
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/psychology
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+      PHOTO_PATH: images/
+    depends_on:
+      - db
+  client:
+    build: ./psychology_frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
+volumes:
+  postgres_data:

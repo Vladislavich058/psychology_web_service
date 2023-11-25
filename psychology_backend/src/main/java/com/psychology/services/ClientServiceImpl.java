@@ -201,6 +201,7 @@ public class ClientServiceImpl implements ClientService {
 	public Call addCall(CallDTO callDTO) {
 		Call newCall = callMapper.toCall(callDTO);
 		newCall.setIsCallBack(false);
+		log.info(newCall.toString());
 		return callRepository.save(newCall);
 	}
 
