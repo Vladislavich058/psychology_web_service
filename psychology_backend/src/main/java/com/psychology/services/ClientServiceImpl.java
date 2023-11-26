@@ -74,23 +74,11 @@ public class ClientServiceImpl implements ClientService {
 		Psychologist psychologist = psychologistRepository.findById(psychologistId)
 				.orElseThrow(() -> new NotFoundException("Psychologist with id " + psychologistId + " not found!"));
 		List<Record> busyRecords = recordRepository.findByDateAndPsychologistPricePsychologistId(date, psychologistId);
-		List<LocalTime> workTimes = getPsychologistWorkTime(psychologist, date);
-		for (int k = 0; k < workTimes.size(); k++) {
-			for (int i = 0; i < workTimes.size() - 1; i++) {
-				for (int j = 0; j < busyRecords.size(); j++) {
-					if (busyRecords.get(j).getTime().equals(workTimes.get(i))
-							|| (busyRecords.get(j).getTime().isAfter(workTimes.get(i))
-									&& busyRecords.get(j).getTime().isBefore(workTimes.get(i + 1)))
-							|| (workTimes.get(i).isAfter(busyRecords.get(j).getTime()) && workTimes.get(i)
-									.isBefore(busyRecords.get(j).getTime()
-											.plusHours(busyRecords.get(j).getDuration().getHour())
-											.plusMinutes(busyRecords.get(j).getDuration().getMinute())))) {
-						workTimes.remove(i);
-						break;
-					}
-				}
-			}
-		}
+		List<LocalTime> workTimes = getPsychologistWorkTime(psychologist, date).stream()
+				.filter(time -> busyRecords.stream().noneMatch(busyTime -> (busyTime.getTime().equals(time)
+						|| (busyTime.getTime().isAfter(time) && busyTime.getTime().isBefore(time.plusHours(1)))
+						|| (time.isAfter(busyTime.getTime()) && time.isBefore(busyTime.getTime().plusHours(1))))))
+				.collect(Collectors.toList());
 		if (date.equals(LocalDate.now())) {
 			return workTimes.stream().filter(time -> time.isAfter(LocalTime.now())).collect(Collectors.toList());
 		}
